@@ -1,4 +1,4 @@
-<html language="en">
+<html lang="en">
 
 <head>
     <!-- basic -->
