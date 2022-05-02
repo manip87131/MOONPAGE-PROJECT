@@ -1,0 +1,29 @@
+pipeline {
+    agent any
+    tools { 
+        maven 'maven3' 
+    }
+    
+    stages {
+        stage('CheckOut') {
+            steps {
+                git 'https://github.com/manip87131/MOONPAGE-PROJECT.git'
+            }
+        }
+        stage('build'){
+            steps{
+                tool name: 'maven3'
+                sh "mvn clean package"
+        
+            }
+        }
+              stage('Deploy') {
+            steps {
+                sshagent(['tomcat-deploy']) {
+                    sh 'scp -o StrictHostKeyChecking=no target/*.war ec2-user@172.31.19.88:/home/ec2-user/apache-tomcat-8.5.78/webapps/'
+                }
+            }
+        }
+    }
+
+}
