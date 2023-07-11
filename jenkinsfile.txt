@@ -14,7 +14,7 @@ pipeline{
 		}
 		stage('copy artifacts to nexus job'){
 		    steps{
-			    sh 'cp /var/lib/jenkins/workspace/Moonlight-pipeline-job/target/*.war  /var/lib/jenkins/workspace/jenkins -nexus-moonlight/*.war'
+			    sh 'cp /var/lib/jenkins/workspace/Moonlight-pipeline-job/target/MoonPageWebApp.war  /var/lib/jenkins/workspace/jenkins -nexus-moonlight/MoonPageWebApp.war'
 			}	
 		    post{
 			    success{
@@ -28,7 +28,7 @@ pipeline{
 		}
 		stage('copy artifacts to stg deploy job'){
 		    steps{
-		        sh 'cp /var/lib/jenkins/Moonlight-pipeline-job/target/*.war /var/lib/jenkins/workspace/jenkins-to-tomcat-stg/*.war'
+		        sh 'cp /var/lib/jenkins/Moonlight-pipeline-job/target/MoonPageWebApp.war /var/lib/jenkins/workspace/jenkins-to-tomcat-stg/MoonPageWebApp.war'
 			}
 			post{
 			    success{
