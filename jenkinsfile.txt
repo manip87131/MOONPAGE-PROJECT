@@ -14,7 +14,7 @@ pipeline{
 		}
 		stage('copy artifacts to nexus job'){
 		    steps{
-			     sh 'cp /var/lib/jenkins/workspace/Moonlight-pipeline-job/target/*.war  /var/lib/jenkins/workspace/jenkins -nexus-moonlight/target/
+			     sh 'cp /var/lib/jenkins/workspace/Moonlight-pipeline-job/target/*.war  /var/lib/jenkins/workspace/jenkins -nexus-moonlight/target/*.war'
 			}	
 		    post{
 			    success{
