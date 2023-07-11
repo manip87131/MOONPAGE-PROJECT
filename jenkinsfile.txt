@@ -1,0 +1,46 @@
+pipeline{
+    agent any
+	stages{
+	    stage('Build') {
+	        steps{
+			   sh 'mvn install'
+            }
+            post {
+                success{
+                 	echo 'Now archiving..'
+                    archiveArtifacts artifacts: '**/target/*.war'
+                }					
+			}	
+		}
+		stage('copy artifacts to nexus job'){
+		    steps{
+			    sh 'cp /var/lib/jenkins/workspace/Moonlight-pipeline-job/target/*.war  /var/lib/jenkins/workspace/jenkins -nexus-moonlight/*.war'
+			}	
+		    post{
+			    success{
+                    echo 'artifact copied'
+        }       }
+			}			   
+		stage('Nexus versioning'){
+		    steps{
+			   build job: 'jenkins -nexus-moonlight'
+			}   
+		}
+		stage('copy artifacts to stg deploy job'){
+		    steps{
+		        sh 'cp /var/lib/jenkins/Moonlight-pipeline-job/target/*.war /var/lib/jenkins/workspace/jenkins-to-tomcat-stg/*.war'
+			}
+			post{
+			    success{
+				   echo 'artifact copied'
+                }
+            }
+        }			
+        stage('staging Deploy'){
+            steps{
+     		    build job: 'jenkins-to-tomcat-stg'
+			}	
+		}
+		
+	}
+}	
